@@ -1,31 +1,35 @@
-import React from 'react';
-import {
-	View,
-	Text,
-	StyleSheet
-} from 'react-native';
+import React, { Component } from 'react';
+import { Text, View } from 'react-native';
 import TabView from 'react-native-scrollable-tab-view';
-import LinearGradient from 'react-native-linear-gradient';
+import { CurrentWorkout } from './CurrentWorkout';
 
+export class Main extends Component {
+  constructor() {
+    super();
+    this.state = {
+      activeTab: 0
+    }
+  }
 
-export const Main = (props) => (
-	<LinearGradient
-    colors={['#52EDC7', '#5AC8FB']}
-    style={styles.container}>
-    <Text style={styles.text} onPress={() => props.changeTab('home')}>Go to Welcome screen</Text>
-    <TabView
-      tabBarTextStyle={{ fontSize: 30 }}
-      tabBarPosition="overlayBottom"
-    >
-      <Text tabLabel="hello">Hello</Text>
-      <Text tabLabel="yo">Yoyo</Text>
-    </TabView>
-  </LinearGradient>
-);
+  handleTabChange = ({i}) => {
+    this.setState({activeTab: i});
+  }
 
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1
-	}
-});
+  render() {
+    return (
+      <View style={{flex: 1}}>
+        <TabView
+          tabBarTextStyle={{ fontSize: 30 }}
+          tabBarPosition="overlayBottom"
+          onChangeTab={this.handleTabChange}
+        >
+          <CurrentWorkout
+            tabLabel="+"
+            activeTab={this.state.activeTab}
+          />
+          <Text tabLabel="yo">yo</Text>
+        </TabView>
+      </View>
+    );
+  }
+}
